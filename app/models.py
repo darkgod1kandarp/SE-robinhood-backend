@@ -28,6 +28,7 @@ class FoodDetail(Base):
     owner = relationship("User", back_populates="items")
     is_delivered =  Column(Boolean, default=False)
     quantity =   Column(String)
+    description =   Column(String)
 
     
     # shared_food  =  relationship("SharedFood" , back_populates="user_food")
