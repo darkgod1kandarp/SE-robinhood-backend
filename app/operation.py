@@ -19,8 +19,8 @@ def create_user(db: Session,user_data:schema.CreateUser):
     return db_user
 
 def  login_user(db: Session , user_data :schema.LoginUser):
-    print(user_data.name ,  user_data.password)
-    return db.query(models.User).filter(and_(models.User.name ==  user_data.name , models.User.password==user_data.password) ).first()
+  
+    return db.query(models.User).filter(and_(models.User.email ==  user_data.email , models.User.password==user_data.password) ).first()
 
 def find_user(db  :Session ,  username : str ):
     return db.query(models.User).filter(models.User.name ==  username).first()
