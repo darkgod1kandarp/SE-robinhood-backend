@@ -23,6 +23,7 @@ def  login_user(db: Session , user_data :schema.LoginUser):
     return db.query(models.User).filter(and_(models.User.email ==  user_data.email , models.User.password==user_data.password) ).first()
 
 def find_user(db  :Session ,  email : str ):
+    print(email)
     return db.query(models.User).filter(models.User.email ==  email).first()
 
 def find_user_by_id(db : Session ,  userid :  str):

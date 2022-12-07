@@ -70,11 +70,25 @@ from urllib import response
 import uvicorn
 from fastapi import FastAPI
 import socketio
+from fastapi.middleware.cors import CORSMiddleware
 
 sio: Any = socketio.AsyncServer(async_mode="asgi" , cors_allowed_origins='*')
 socket_app = socketio.ASGIApp(sio)
 app = FastAPI()
 
+
+
+origins = [
+"*"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/test")
 async def test():
@@ -84,7 +98,8 @@ async def test():
 @app.post("/SignUp/user", response_model=schema.UserBase)
 def create_user(user: schema.CreateUser, db: Session = Depends(get_db)):
     print(user)
-    if operation.find_user(db,user.name ):
+    # print(operation.find_user(db,user.name ) ,  "er32")
+    if operation.find_user(db,user.email ):
         raise HTTPException(status_code=400, detail="User already exist")
     return operation.create_user(db=db, user_data=user)
 
