@@ -16,7 +16,7 @@ class UserBase(BaseModel):
 class CreateUser(UserBase):
     pass
 class  Login(BaseModel):
-    name:str  
+    email:str  
     password:str
     class Config:
         orm_mode = True
