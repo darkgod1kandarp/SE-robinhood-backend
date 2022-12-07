@@ -107,9 +107,11 @@ def create_user(user: schema.CreateUser, db: Session = Depends(get_db)):
 def login_user(user :schema.Login , db: Session = Depends(get_db)):
    
     data  = operation.login_user(db , user)
+    # first data
+    print(data.__dict__)
     if not data :
         raise HTTPException(status_code=400, detail  = "Invalid username or password")
-    return data.id
+    return data.__dict__
 # @app.post("/user/foodshare")
 # def food_share(food :schema.FoodDetail , db: Session = Depends(get_db) ):
 #     data  =  operation.store_data(db  ,  food)
@@ -168,6 +170,6 @@ async def disconnect(sid):
 
 
 if __name__ == "__main__":
-    kwargs = {"host": "0.0.0.0", "port": 5000}
+    kwargs = {"host": "10.1.102.79", "port": 5000}
     kwargs.update({ "reload": True})
     uvicorn.run("main:app", **kwargs)
