@@ -3,6 +3,6 @@
       {"src": "/SE-project/main.py", "use": "@now/python"}
     ],
     "routes": [
-      {"src": "/(.*)", "dest": "SE-project/api.py"}
+      {"src": "/(.*)", "dest": "SE-project/main.py"}
     ]
   }
