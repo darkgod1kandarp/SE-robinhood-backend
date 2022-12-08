@@ -3,8 +3,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 
-print("sgrwg")
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:123@localhost:5432/postgres"
+
+SQLALCHEMY_DATABASE_URL = "postgresql://009kandarp:LYMFDZb19pcW@ep-nameless-scene-766083.us-east-2.aws.neon.tech/neondb"
 # SQLALCHEMY_DATABASE_URL = "postgresql://user:password@postgresserver/db"
 
 engine = create_engine(
