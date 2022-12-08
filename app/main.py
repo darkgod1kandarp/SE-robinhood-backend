@@ -181,15 +181,29 @@ async def function(sid ,  msg):
   
     operation.changing_food_status(next(get_db()) , msg)
     operation.changing_volunteer_status(next(get_db()) ,  msg)
-    
+
+
+
 @sio.on("delivered")
 async def function1(sid ,msg):
-    print(msg)
+  
     data  =  operation.giving_volunteer_complete_data(next(get_db()) ,  msg )
     if data  :
         await sio.emit("delivered_data" ,  data)
     else:
         await sio.emit("delivered_data" , False)
+        
+@sio.on("user_donor")
+async def function2(sid  , msg):
+    await sio.emit("user_donor_data"  ,operation.giving_user_order( next(get_db()) ,  msg)  )
+    
+
+   
+    
+    
+    
+    
+    
         
     
     
@@ -202,6 +216,6 @@ async def disconnect(sid):
 
 
 if __name__ == "__main__":
-    kwargs = {"host": "192.168.43.213", "port": 5000}
+    kwargs = {"host": "192.168.98.213" , "port": 5000}
     kwargs.update({ "reload": True})
     uvicorn.run("main:app", **kwargs)

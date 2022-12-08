@@ -24,6 +24,8 @@ class User(Base):
     city  =   Column(String)
     email  =  Column(String , unique=True)
     items=  relationship("FoodDetail", back_populates="owner")
+    status =  relationship("FoodStatus" , back_populates="users")
+
 
 class FoodDetail(Base):
     __tablename__ = "fooddetail"
@@ -35,9 +37,7 @@ class FoodDetail(Base):
     is_delivered =  Column(Enum(MyEnum), default=MyEnum.pending)
     quantity =   Column(String)
     description =   Column(String)
-
-    
-    # shared_food  =  relationship("SharedFood" , back_populates="user_food")
+    shared_food  =  relationship("FoodStatus" , back_populates="foodies", uselist=False)
     
 class FoodStatus(Base):
     __tablename__= "foodstatus"
@@ -45,6 +45,8 @@ class FoodStatus(Base):
     foodid  = Column(UUID(as_uuid=True), ForeignKey("fooddetail.id"))
     volunteerid  =   Column(UUID(as_uuid=True), ForeignKey("users.id"))
     created_at  =  Column(DateTime, default  =  datetime.datetime.utcnow)
+    foodies  =  relationship("FoodDetail"  , back_populates  = "shared_food" , uselist=False)
+    users  =  relationship("User" , back_populates="status" , uselist=False)
     
     
           

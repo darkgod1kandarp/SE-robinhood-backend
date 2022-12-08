@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import and_
 import models as models, schema as schema
 import uuid
+import json
 
 def create_user(db: Session,user_data:schema.CreateUser):
     db_user  =  models.User( 
@@ -172,7 +173,28 @@ def giving_volunteer_complete_data(db:Session ,  msg):
     except Exception as ex:
         print(ex)
         return False
+
+def giving_user_order(db :Session , msg):
+    try:
+        user_data  =   db.query(models.User).filter(models.User.id  == msg['user_id']).first()
+        data  =   []
         
+        if user_data:
+            # print(user_data.  ,  )
+            list_food_donor  =   user_data.items
+            
+            for  food  in list_food_donor:
+                
+                
+                if food.shared_food:
+                   
+                    data.append({'location' :  food.location ,  "created_at" :  str(food.created_at) ,  "is_delivered": json.dumps(food.is_delivered) , 'qualtity' :  food.quantity ,  "description" : food.description ,  "volunteername": food.shared_food.users.name})
+                
+            return data
+        
+    except Exception as ex:
+        print(ex)
+        return False 
 
         
     
