@@ -14,6 +14,7 @@ class UserBase(BaseModel):
     class Config:
         orm_mode = True
 class CreateUser(UserBase):
+ 
     pass
 class  Login(BaseModel):
     email:str  
@@ -31,7 +32,11 @@ class  FoodDetail(BaseModel):
     class Config:
         orm_mode = True
 
-        
+
+# class DataFood (BaseModel):
+    
+
+
 class SharedFood(FoodDetail):
     pass
 

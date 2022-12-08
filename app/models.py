@@ -1,11 +1,17 @@
 from datetime import datetime
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime , Enum
 from sqlalchemy.orm import relationship
 from  database import Base
 import datetime
 import uuid
+import enum
 
+
+class MyEnum(enum.IntEnum):
+    delivering = 1
+    delivered = 2
+    pending= 3
   
 class User(Base):
     __tablename__ = "users"
@@ -26,20 +32,22 @@ class FoodDetail(Base):
     location  =  Column(String)
     created_at  =  Column(DateTime, default  =  datetime.datetime.utcnow)
     owner = relationship("User", back_populates="items")
-    is_delivered =  Column(Boolean, default=False)
+    is_delivered =  Column(Enum(MyEnum), default=MyEnum.pending)
     quantity =   Column(String)
     description =   Column(String)
 
     
     # shared_food  =  relationship("SharedFood" , back_populates="user_food")
     
-# class SharedFood(Base):
-#     __tablename__= "sharedfood"
-#     id = Column(UUID(as_uuid=True),  default=uuid.uuid4   , primary_key=True)
-#     quantity = Column(String)
-#     user_food  =  relationship("FoodDetail" , back_populates="shared_food")
+class FoodStatus(Base):
+    __tablename__= "foodstatus"
+    id = Column(UUID(as_uuid=True),  default=uuid.uuid4   , primary_key=True)
+    foodid  = Column(UUID(as_uuid=True), ForeignKey("fooddetail.id"))
+    volunteerid  =   Column(UUID(as_uuid=True), ForeignKey("users.id"))
+    created_at  =  Column(DateTime, default  =  datetime.datetime.utcnow)
     
-        
+    
+          
     
     
 
