@@ -38,7 +38,7 @@ class FoodDetail(Base):
     quantity =   Column(String)
     description =   Column(String)
     shared_food  =  relationship("FoodStatus" , back_populates="foodies", uselist=False)
-    
+
 class FoodStatus(Base):
     __tablename__= "foodstatus"
     id = Column(UUID(as_uuid=True),  default=uuid.uuid4   , primary_key=True)
