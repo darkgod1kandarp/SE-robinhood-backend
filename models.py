@@ -27,6 +27,8 @@ class User(Base):
     status =  relationship("FoodStatus" , back_populates="users")
 
 
+
+
 class FoodDetail(Base):
     __tablename__ = "fooddetail"
     id = Column(UUID(as_uuid=True),  default=uuid.uuid4   , primary_key=True)

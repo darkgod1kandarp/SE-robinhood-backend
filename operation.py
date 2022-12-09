@@ -5,6 +5,7 @@ import uuid
 import json
 
 def create_user(db: Session,user_data:schema.CreateUser):
+    
     db_user  =  models.User( 
                             email  = user_data.email , 
                             password  = user_data.password ,  
@@ -13,10 +14,19 @@ def create_user(db: Session,user_data:schema.CreateUser):
                             is_volunteer =  user_data.is_volunteer , 
                             city  =  user_data.city, 
                             )
-
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
+  
+    
+    
+        
+        
+        
+        
+
+    
+        # models.StateStore(image  = db['image'] , db['volunteer_id'])
 
     return db_user.__dict__
 
@@ -100,7 +110,7 @@ def volunteer_opertation(db:Session ,  msg):
             food_data  =   db.query(models.FoodDetail).filter(and_(models.FoodDetail.id ==value.foodid ,models.FoodDetail.is_delivered=="delivering")).first() 
             if food_data:
                 data.append({'name':food_data.owner.name , 'description':food_data.description,
-                            
+                                "owner_id":str(food_data.owner.id), 
                                 'location':food_data.location,
                                 'quantity' :food_data.quantity, 
                                 'created_at':str(food_data.created_at) ,  
@@ -178,20 +188,16 @@ def giving_user_order(db :Session , msg):
     try:
         user_data  =   db.query(models.User).filter(models.User.id  == msg['user_id']).first()
         data  =   []
-        
         if user_data:
             # print(user_data.  ,  )
-            list_food_donor  =   user_data.items
-            
+            list_food_donor  =   user_data.items  
             for  food  in list_food_donor:
-                
-                
-                if food.shared_food:
-                   
+                if food.shared_food:     
                     data.append({'location' :  food.location ,  "created_at" :  str(food.created_at) ,  "is_delivered": json.dumps(food.is_delivered) , 'qualtity' :  food.quantity ,  "description" : food.description ,  "volunteername": food.shared_food.users.name})
+                else:
+                    data.append({'location' :  food.location ,  "created_at" :  str(food.created_at) ,  "is_delivered": json.dumps(food.is_delivered) , 'qualtity' :  food.quantity ,  "description" : food.description,  "volunteername": "-"})
                 
             return data
-        
     except Exception as ex:
         print(ex)
         return False 
